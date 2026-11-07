@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Quiz</title>
+</head>
+
+<body>
+
+    <h1>ONLINE QUIZ APPLICATION</h1>
+
+    <h3 id="question">Question appears here</h3>
+
+    <button onclick="checkAnswer(0)" id="a"></button>
+    <button onclick="checkAnswer(1)" id="b"></button>
+    <button onclick="checkAnswer(2)" id="c"></button>
+    <button onclick="checkAnswer(3)" id="d"></button>
+
+    <h3 id="result"></h3>
+
+    <button onclick="nextQuestion()">Next Question</button>
+
+    <h3 id="score"></h3>
+
+<script>
+
+let questions = [
+{
+    question: "1. What is HTML?",
+    options: [
+        "Programming Language",
+        "Markup Language",
+        "Database",
+        "Operating System"
+    ],
+    answer: 1
+},
+
+{
+    question: "2. Which language is used for web functionality?",
+    options: [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "SQL"
+    ],
+    answer: 2
+},
+
+{
+    question: "3. What does CSS stand for?",
+    options: [
+        "Computer Style Sheet",
+        "Creative Style System",
+        "Cascading Style Sheets",
+        "Color Style Sheet"
+    ],
+    answer: 2
+},
+
+{
+    question: "4. Which tag is used for a paragraph?",
+    options: [
+        "<p>",
+        "<h1>",
+        "<br>",
+        "<img>"
+    ],
+    answer: 0
+}
+];
+
+let current = 0;
+let marks = 0;
+let answered = false;
+
+function displayQuestion() {
+
+    answered = false;
+
+    document.getElementById("question").innerHTML =
+    questions[current].question;
+
+    let ids = ["a", "b", "c", "d"];
+
+    for(let i = 0; i < 4; i++) {
+        document.getElementById(ids[i]).innerHTML =
+        questions[current].options[i];
+
+        document.getElementById(ids[i]).disabled = false;
+    }
+
+    document.getElementById("result").innerHTML = "";
+}
+
+function checkAnswer(choice) {
+
+    if(answered) return;
+
+    answered = true;
+
+    if(choice === questions[current].answer) {
+        marks++;
+        document.getElementById("result").innerHTML =
+        "Correct Answer!";
+    }
+    else {
+        document.getElementById("result").innerHTML =
+        "Wrong Answer!";
+    }
+
+    let ids = ["a", "b", "c", "d"];
+
+    ids.forEach(id => {
+        document.getElementById(id).disabled = true;
+    });
+}
+
+function nextQuestion() {
+
+    if(!answered) {
+        alert("Please select an answer!");
+        return;
+    }
+
+    current++;
+
+    if(current < questions.length) {
+        displayQuestion();
+    }
+    else {
+        document.body.innerHTML =
+        "<h1>QUIZ COMPLETED!</h1>" +
+        "<h2>Your Score: " + marks +
+        " / " + questions.length + "</h2>" +
+        "<button onclick='location.reload()'>Play Again</button>";
+    }
+}
+
+displayQuestion();
+
+</script>
+
+</body>
+</html>
